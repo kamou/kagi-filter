@@ -21,7 +21,6 @@
     "permissions": [
         "activeTab",
         "storage",
-        "scripting"
     ],
     "host_permissions": [
         "https://raw.githubusercontent.com/*"
