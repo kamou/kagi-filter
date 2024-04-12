@@ -1,6 +1,5 @@
 
-const browserInstance = typeof browser !== 'undefined' ? browser : chrome;
-browserInstance.runtime.sendMessage({action: "updateHostList"}, (response) => {
+chrome.runtime.sendMessage({action: "updateHostList"}, (response) => {
     console.log("Response:", response);
 });
 
@@ -10,7 +9,7 @@ function filterContent() {
         const hostnames = Array.from(parentElement.querySelectorAll('span.host'))
                                .map(hostSpan => hostSpan.textContent.trim());
 
-        browserInstance.runtime.sendMessage({action: "checkHostsInList", hostnames: hostnames}, (response) => {
+        chrome.runtime.sendMessage({action: "checkHostsInList", hostnames: hostnames}, (response) => {
             if (response && response.blockedHosts && response.blockedHosts.length > 0) {
                 response.blockedHosts.forEach(blockedHost => {
                     const elementToRemove = Array.from(parentElement.children).find(child => {

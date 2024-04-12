@@ -99,8 +99,7 @@ async function storeHostFile() {
 
 
 console.log('calling addListener!');
-const browserInstance = typeof browser !== 'undefined' ? browser : chrome;
-browserInstance.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log('inside addListener!');
     if (request.action === "updateHostList") {
         storeHostFile().then(() => {
