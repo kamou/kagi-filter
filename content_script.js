@@ -3,8 +3,7 @@ chrome.runtime.sendMessage({action: "updateHostList"}, (response) => {
     console.log("Response:", response);
 });
 
-
-window.onload = function() {
+function filterContent() {
     const parentElement = document.getElementById('layout-v2');
     if (parentElement) {
         const hostnames = Array.from(parentElement.querySelectorAll('span.host'))
@@ -24,4 +23,23 @@ window.onload = function() {
             }
         });
     }
+}
+
+// Call filterContent initially to handle already loaded content
+filterContent();
+
+// MutationObserver to observe changes within the page and filter content accordingly
+const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+        if (mutation.type === 'childList' && mutation.addedNodes.length) {
+            filterContent();
+        }
+    }
+});
+
+observer.observe(document.body, { childList: true, subtree: true });
+
+// Disconnect the observer when leaving the page
+window.onunload = () => {
+    observer.disconnect();
 };
